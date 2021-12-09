@@ -14,7 +14,7 @@ setuptools.setup(
     python_requires=">=3.9",
     entry_points={
         "console_scripts": [
-            "av1clip = av1clip.av1clip",
+            "av1clip = av1clip.av1clip:main",
         ]
     },
 )
