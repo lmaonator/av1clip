@@ -14,7 +14,7 @@ SVTAV1 = "SvtAv1EncApp"
 
 # default encode settings
 AUDIO_BITRATE = "256k"
-SVTAV1_CRF = "32"
+SVTAV1_CRF = "30"
 SVTAV1_PRESET = "3"
 SVTAV1_TILE_ROWS = "2"
 SVTAV1_TILE_COLUMNS = "2"
