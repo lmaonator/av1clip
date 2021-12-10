@@ -213,8 +213,8 @@ def main():
         "-map_chapters", "-1",
         "-metadata", f"TITLE={os.path.basename(args.input_file)} [{source_range}]",
         "-metadata", "creation_time=" + datetime.now(timezone.utc).isoformat(),
-        "-metadata", f"COMMENT=Clipped with av1clip.py using mpv {MPV_VERSION}, SVT-AV1 {SVTAV1_VERSION}, "
-                     f"ffmpeg version {FFMPEG_VERSION}",
+        "-metadata", f"COMMENT=Clipped with https://github.com/lmaonator/av1clip using mpv {MPV_VERSION}, "
+                     f"SVT-AV1 {SVTAV1_VERSION}, ffmpeg version {FFMPEG_VERSION}",
         "-metadata", f"SOURCE-FILE={os.path.basename(args.input_file)}",
         "-metadata", f"SOURCE-RANGE={source_range}",
         "-metadata", "DATE=" + datetime.utcnow().isoformat(sep=" ", timespec="seconds"),
