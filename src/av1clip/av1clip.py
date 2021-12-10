@@ -113,7 +113,7 @@ def main():
                               f"ab{args.audio_bitrate}start{args.start}end{args.end}").encode('utf-8')).hexdigest()
     temp_file_base = f"av1clip-{argstr_md5}-"
 
-    dest_dir = os.path.dirname(args.input_file)
+    dest_dir = os.getcwd()
     temp_file_processing = os.path.join(dest_dir, temp_file_base + "processing.mkv")
     temp_file = os.path.join(dest_dir, temp_file_base + "temp.mkv")
 
