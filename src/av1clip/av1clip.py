@@ -35,6 +35,8 @@ SVTAV1_CRF = "30"
 SVTAV1_PRESET = "3"
 SVTAV1_TILE_ROWS = "2"
 SVTAV1_TILE_COLUMNS = "2"
+SVTAV1_FILM_GRAIN = "8"
+SVTAV1_SCD = "0"
 
 
 def get_output(cmd):
@@ -62,7 +64,7 @@ def check_opus_bitrate(value):
         raise argparse.ArgumentTypeError(
             f"libopus: The bit rate {ivalue} bps is unsupported. Please choose"
             " a value between 500 and 512000.")
-    return ivalue
+    return value
 
 
 def main():
@@ -83,15 +85,19 @@ def main():
 
     group = parser.add_argument_group("encode settings")
     group.add_argument("-ab", "--audio-bitrate", default=AUDIO_BITRATE, type=check_opus_bitrate,
-                       help=f"Opus audio bitrate, default {AUDIO_BITRATE}")
-    group.add_argument("-crf", "--crf", default=SVTAV1_CRF,
-                       help=f"SVT-AV1 crf, default {SVTAV1_CRF}")
-    group.add_argument("--preset", default=SVTAV1_PRESET,
-                       help=f"SVT-AV1 preset, default {SVTAV1_PRESET}")
-    group.add_argument("--tile-rows", default=SVTAV1_TILE_ROWS,
-                       help=f"SVT-AV1 log2 of tile rows, default {SVTAV1_TILE_ROWS}")
-    group.add_argument("--tile-columns", default=SVTAV1_TILE_COLUMNS,
-                       help=f"SVT-AV1 log2 of tile columns, default {SVTAV1_TILE_COLUMNS}")
+                       help=f"Opus audio bitrate [500-512k], default {AUDIO_BITRATE}")
+    group.add_argument("-crf", "--crf", default=SVTAV1_CRF, type=int, choices=range(0, 64),
+                       help=f"SVT-AV1 crf [0-63], default {SVTAV1_CRF}")
+    group.add_argument("--preset", default=SVTAV1_PRESET, type=int, choices=range(0, 9),
+                       help=f"SVT-AV1 preset [0-8], default {SVTAV1_PRESET}")
+    group.add_argument("--tile-rows", default=SVTAV1_TILE_ROWS, type=int, choices=range(0, 7),
+                       help=f"SVT-AV1 log2 of tile rows [0-6], default {SVTAV1_TILE_ROWS}")
+    group.add_argument("--tile-columns", default=SVTAV1_TILE_COLUMNS, type=int, choices=range(0, 5),
+                       help=f"SVT-AV1 log2 of tile columns [0-4], default {SVTAV1_TILE_COLUMNS}")
+    group.add_argument("-g", "--film-grain", default=SVTAV1_FILM_GRAIN, type=int, choices=range(0, 51),
+                       help=f"SVT-AV1 film-grain synthesis [0-50], default {SVTAV1_FILM_GRAIN}")
+    group.add_argument("--scd", default=SVTAV1_SCD, type=int, choices=range(0, 2),
+                       help=f"SVT-AV1 enable scene change detection [0-1], default: {SVTAV1_SCD}")
 
     args = parser.parse_args()
 
@@ -127,7 +133,7 @@ def main():
 
     # skip creating temp_file if it already exists
     if not os.path.exists(temp_file):
-        print("Creating scaled clip with burned subtitles and opus audio..")
+        print("Creating temporary clip with burned subtitles and opus audio..")
         mpv_cmd = [
             MPV,
             # base arguments
@@ -158,8 +164,7 @@ def main():
     # ffprobe to get video parameters for SVT-AV1
     data = ffprobe(temp_file)
     video = next(s for s in data["streams"] if s["codec_type"] == "video")
-    fps_num = video["r_frame_rate"].split("/")[0]
-    fps_denom = video["r_frame_rate"].split("/")[1]
+    fps_num, fps_denom = video["r_frame_rate"].split("/")
 
     video_width = video["width"]
     video_height = video["height"]
@@ -192,10 +197,11 @@ def main():
     # Encode from ffmpeg temp_file pipe and pipe to ffmpeg for muxing
     svtav1_cmd = [
         SVTAV1,
-        "--preset", args.preset,
-        "--tile-rows", args.tile_rows, "--tile-columns", args.tile_columns,
-        "--crf", args.crf,
+        "--preset", str(args.preset),
+        "--tile-rows", str(args.tile_rows), "--tile-columns", str(args.tile_columns),
+        "--crf", str(args.crf),
         "--fps-num", fps_num, "--fps-denom", fps_denom,
+        "--film-grain", str(args.film_grain), "--scd", str(args.scd),
         "--input-depth", video["bits_per_raw_sample"],
         "-w", str(video_width), "-h", str(video_height),
         "-i", "stdin", "-b", "stdout",
