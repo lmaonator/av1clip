@@ -86,17 +86,17 @@ def main():
     group = parser.add_argument_group("encode settings")
     group.add_argument("-ab", "--audio-bitrate", default=AUDIO_BITRATE, type=check_opus_bitrate,
                        help=f"Opus audio bitrate [500-512k], default {AUDIO_BITRATE}")
-    group.add_argument("-crf", "--crf", default=SVTAV1_CRF, type=int, choices=range(0, 64),
+    group.add_argument("-crf", "--crf", default=SVTAV1_CRF, type=int,
                        help=f"SVT-AV1 crf [0-63], default {SVTAV1_CRF}")
-    group.add_argument("--preset", default=SVTAV1_PRESET, type=int, choices=range(0, 9),
+    group.add_argument("--preset", default=SVTAV1_PRESET, type=int,
                        help=f"SVT-AV1 preset [0-8], default {SVTAV1_PRESET}")
-    group.add_argument("--tile-rows", default=SVTAV1_TILE_ROWS, type=int, choices=range(0, 7),
+    group.add_argument("--tile-rows", default=SVTAV1_TILE_ROWS, type=int,
                        help=f"SVT-AV1 log2 of tile rows [0-6], default {SVTAV1_TILE_ROWS}")
-    group.add_argument("--tile-columns", default=SVTAV1_TILE_COLUMNS, type=int, choices=range(0, 5),
+    group.add_argument("--tile-columns", default=SVTAV1_TILE_COLUMNS, type=int,
                        help=f"SVT-AV1 log2 of tile columns [0-4], default {SVTAV1_TILE_COLUMNS}")
-    group.add_argument("-g", "--film-grain", default=SVTAV1_FILM_GRAIN, type=int, choices=range(0, 51),
+    group.add_argument("-g", "--film-grain", default=SVTAV1_FILM_GRAIN, type=int,
                        help=f"SVT-AV1 film-grain synthesis [0-50], default {SVTAV1_FILM_GRAIN}")
-    group.add_argument("--scd", default=SVTAV1_SCD, type=int, choices=range(0, 2),
+    group.add_argument("--scd", default=SVTAV1_SCD, type=int,
                        help=f"SVT-AV1 enable scene change detection [0-1], default: {SVTAV1_SCD}")
 
     args = parser.parse_args()
