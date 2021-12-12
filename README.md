@@ -29,7 +29,7 @@ Clip first 10 seconds and scale video to 480p
 
 ## Full help output
 
-```shell
+```
 $ av1clip -h
 usage: av1clip [-h] [-s START] [-e END] [-vid VID] [-aid AID] [-sid SID] [-sw WIDTH] [-sh HEIGHT] [-ab AUDIO_BITRATE] [-crf CRF] [--preset PRESET] [--tile-rows TILE_ROWS] [--tile-columns TILE_COLUMNS] [-g FILM_GRAIN] [--scd SCD] input_file
 
@@ -57,7 +57,7 @@ filters:
 
 encode settings:
   -ab AUDIO_BITRATE, --audio-bitrate AUDIO_BITRATE
-                        Opus audio bitrate [500-512k], default 256k
+                        Opus audio bitrate [500-512k], default 192k
   -crf CRF, --crf CRF   SVT-AV1 crf [0-63], default 30
   --preset PRESET       SVT-AV1 preset [0-8], default 3
   --tile-rows TILE_ROWS
