@@ -30,7 +30,7 @@ FFPROBE = "ffprobe"
 SVTAV1 = "SvtAv1EncApp"
 
 # default encode settings
-AUDIO_BITRATE = "256k"
+AUDIO_BITRATE = "192k"
 SVTAV1_CRF = "30"
 SVTAV1_PRESET = "3"
 SVTAV1_TILE_ROWS = "2"
