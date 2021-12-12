@@ -19,6 +19,11 @@ significantly faster for burning subtitles than ffmpegs subtitle filter.
 Ffmpegs subtitle filter demuxes the entire subtitle
 track in the beginning, which takes a while for large videos.
 
+
+## Installation
+
+`pip install av1clip`
+
 ## Example usage
 
 Clip from 01:20.69 to 01:30.96  
