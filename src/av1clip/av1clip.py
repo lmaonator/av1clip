@@ -188,6 +188,8 @@ def main():
                      (args.height if args.height else video_height) / video_height)
         video_width = round(video_width * factor)
         video_height = round(video_height * factor)
+    video_width = video_width if video_width % 2 == 0 else video_width + 1
+    video_height = video_height if video_height % 2 == 0 else video_height + 1
 
     # ffmpeg temp_file pipe to SVT-AV1
     ffmpeg_yuvpipe_cmd = [FFMPEG, "-hide_banner", "-v", "error", "-i", temp_file, "-map", "0:v:0"]
